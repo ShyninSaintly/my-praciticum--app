@@ -1,9 +1,8 @@
-import React from "react";
 import "./styles/App.css";
 import { useState } from "react";
-import PostItem from "./Componets/PostItem";
-import Counter from "./Componets/Counter";
-import ClassCounter from "./Componets/ClassCouter";
+import PostList from "./Componets/PostList.jsx";
+import MyButton from "./Componets/UI/button/MyButton.jsx";
+import MyInput from "./Componets/UI/input/MyInput.jsx";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -13,9 +12,12 @@ function App() {
   ]);
   return (
     <div className="App">
-      {posts.map((post) => (
-        <PostItem post={post} key={post.id} />
-      ))}
+      <form>
+        <MyInput type="text" placeholder={'Title'}/>
+        <MyInput type="text" placeholder="Description"/>
+        <MyButton disabled>Create post</MyButton>
+      </form>
+      <PostList posts={posts} title={'Lists of items'} />
     </div>
   );
 }
