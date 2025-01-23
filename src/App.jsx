@@ -10,7 +10,7 @@ function App() {
     { id: 2, title: "JavaScript 2", body: "Description" },
     { id: 3, title: "JavaScript 3", body: "Description" },
   ]);
-  const[title,setTitle]=useState("sdaasa");
+  const[title,setTitle]=useState("");
   const addNewPost = (e) => {
       e.preventDefault();
 console.log(title);
