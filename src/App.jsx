@@ -10,7 +10,7 @@ function App() {
     { id: 2, title: "JavaScript 2", body: "Description" },
     { id: 3, title: "JavaScript 3", body: "Description" },
   ]);
-  const[post,setPost]=useState({title:'',body:''});
+
 
   const addNewPost = (e) => {
       e.preventDefault()
@@ -19,11 +19,7 @@ function App() {
   }
   return (
     <div className="App">
-      <form>
-        <MyInput  value={post.title}  onChange={e=>setPost({...post,title:e.target.value})}type="text" placeholder={'Title'}/>
-        <MyInput value={post.body}  onChange={e=>setPost({...post,body:e.target.value})}type="text" placeholder="Description"/>
-        <MyButton onClick={addNewPost}>Create post</MyButton>
-      </form>
+      <PostList posts={posts} addNewPost={addNewPost} />
       <PostList posts={posts} title={'Lists of items'} />
     </div>
   );
