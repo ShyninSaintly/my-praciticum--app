@@ -1,5 +1,5 @@
 import "./styles/App.css";
-import { useState } from "react";
+import {useRef, useState} from "react";
 import PostList from "./Componets/PostList.jsx";
 import MyButton from "./Componets/UI/button/MyButton.jsx";
 import MyInput from "./Componets/UI/input/MyInput.jsx";
@@ -10,16 +10,18 @@ function App() {
     { id: 2, title: "JavaScript 2", body: "Description" },
     { id: 3, title: "JavaScript 3", body: "Description" },
   ]);
-  const[title,setTitle]=useState("");
+  const[post,setPost]=useState({title:'',body:''});
+
   const addNewPost = (e) => {
-      e.preventDefault();
-console.log(title);
+      e.preventDefault()
+    setPosts([...posts, {...post,id:Date.now()}]);
+      setPost({title:'',body:''})
   }
   return (
     <div className="App">
       <form>
-        <MyInput  value={title}  onChange={e=>setTitle(e.target.value)}type="text" placeholder={'Title'}/>
-        <MyInput type="text" placeholder="Description"/>
+        <MyInput  value={post.title}  onChange={e=>setPost({...post,title:e.target.value})}type="text" placeholder={'Title'}/>
+        <MyInput value={post.body}  onChange={e=>setPost({...post,body:e.target.value})}type="text" placeholder="Description"/>
         <MyButton onClick={addNewPost}>Create post</MyButton>
       </form>
       <PostList posts={posts} title={'Lists of items'} />
