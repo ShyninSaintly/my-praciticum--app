@@ -2,8 +2,6 @@ import './styles/App.css';
 import { useMemo, useState } from 'react';
 import PostList from './Componets/PostList.jsx';
 import PostForm from './Componets/PostForm.jsx';
-import MySelect from './Componets/UI/select/MySelect.jsx';
-import MyInput from './Componets/UI/input/MyInput.jsx';
 import PostFilter from './Componets/PostFilter.jsx';
 import MyModal from './Componets/UI/MyModal/MyModal.jsx';
 import MyButton from './Componets/UI/button/MyButton.jsx';
