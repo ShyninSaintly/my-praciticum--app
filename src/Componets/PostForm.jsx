@@ -1,24 +1,24 @@
-import React, {useState} from 'react';
-import MyInput from "./UI/input/MyInput.jsx";
-import MyButton from "./UI/button/MyButton.jsx";
+import React, { useState } from 'react';
+import MyInput from './UI/input/MyInput.jsx';
+import MyButton from './UI/button/MyButton.jsx';
 
-const PostForm = ({create}) => {
-    const[post,setPost]=useState({title:'',body:''});
+const PostForm = ({ create }) => {
+    const [post, setPost] = useState({ title: '', body: '' });
 
     const addNewPost = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const newPost = {
-            ...post,id:Date.now(),
+            ...post, id: Date.now(),
         };
         create(newPost);
-        setPost({title:'',body:''})
-    }
+        setPost({ title: '', body: '' });
+    };
     return (
         <form>
-            <MyInput value={post.title} onChange={e => setPost({...post, title: e.target.value})} type="text"
-                     placeholder={'Title'}/>
-            <MyInput value={post.body} onChange={e => setPost({...post, body: e.target.value})} type="text"
-                     placeholder="Description"/>
+            <MyInput value={post.title} onChange={e => setPost({ ...post, title: e.target.value })} type="text"
+                     placeholder={'Title'} />
+            <MyInput value={post.body} onChange={e => setPost({ ...post, body: e.target.value })} type="text"
+                     placeholder="Description" />
             <MyButton onClick={addNewPost}>Create post</MyButton>
         </form>
     );
