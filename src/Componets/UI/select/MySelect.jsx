@@ -1,17 +1,14 @@
 import React from 'react';
 
-const MySelect = ({options,defaultValue}) => {
+// eslint-disable-next-line react/prop-types
+const MySelect = ({options,defaultValue,value,onChange}) => {
     return (
-        <select>
+        <select value={value} onChange={event => onChange(event.target.value)}>
             <option disabled value="">{defaultValue}</option>
-            {options.map(option=>
-            <option value={option.value}>{option.name}</option>)}
+            {options.map(option =>
+            <option key={option.value} value={option.value}>{option.name}</option>)}
         </select>
     );
 };
-
-
-
-
 
 export default MySelect;
