@@ -2,6 +2,7 @@ import "./styles/App.css";
 import {useState} from "react";
 import PostList from "./Componets/PostList.jsx";
 import PostForm from "./Componets/PostForm.jsx";
+import MySelect from './Componets/UI/select/MySelect.jsx';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -18,19 +19,19 @@ const removePost = (post) => {
   return (
     <div className="App">
       <PostForm create={createPost}/>
-        <hr style={{margin:"15px 0"}}></hr>
+        <hr style={{margin:"15px 0"}}/>
         <div>
-            <select>
-                <option value="value1">По названию</option>
-                <option value="value1">По описанию</option>
-            </select>
+            <MySelect
+            defaultValue='Sort'/>
         </div>
         {posts.length
             ?
             <PostList remove={removePost} posts={posts} title={'Lists of items'} />
             :
-            <h1 style={{textAlign:'center'}}>No posts found</h1>}
-
+            <h1 style={{textAlign:'center'}}>
+                No posts found
+            </h1>
+        }
     </div>
   );
 }
