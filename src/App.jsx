@@ -1,8 +1,7 @@
 import "./styles/App.css";
-import {useRef, useState} from "react";
+import {useState} from "react";
 import PostList from "./Componets/PostList.jsx";
-import MyButton from "./Componets/UI/button/MyButton.jsx";
-import MyInput from "./Componets/UI/input/MyInput.jsx";
+import PostForm from "./Componets/PostForm.jsx";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -10,17 +9,26 @@ function App() {
     { id: 2, title: "JavaScript 2", body: "Description" },
     { id: 3, title: "JavaScript 3", body: "Description" },
   ]);
-
-
-  const addNewPost = (e) => {
-      e.preventDefault()
-    setPosts([...posts, {...post,id:Date.now()}]);
-      setPost({title:'',body:''})
-  }
+const createPost = (newPost) => {
+    setPosts([...posts,newPost]);
+}
+const removePost = (post) => {
+   setPosts(posts.filter(p=> p.id !== post.id))
+}
   return (
     <div className="App">
-      <PostList posts={posts} addNewPost={addNewPost} />
-      <PostList posts={posts} title={'Lists of items'} />
+      <PostForm create={createPost}/>
+        <div>
+            <select>
+                <option value="value1">По названию</option>
+            </select>
+        </div>
+        {posts.length
+            ?
+            <PostList remove={removePost} posts={posts} title={'Lists of items'} />
+            :
+            <h1 style={{textAlign:'center'}}>No posts found</h1>}
+
     </div>
   );
 }
