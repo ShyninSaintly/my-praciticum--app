@@ -18,9 +18,11 @@ const removePost = (post) => {
   return (
     <div className="App">
       <PostForm create={createPost}/>
+        <hr style={{margin:"15px 0"}}></hr>
         <div>
             <select>
                 <option value="value1">По названию</option>
+                <option value="value1">По описанию</option>
             </select>
         </div>
         {posts.length
