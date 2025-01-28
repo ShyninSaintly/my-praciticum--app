@@ -4,6 +4,7 @@ import PostList from './Componets/PostList.jsx';
 import PostForm from './Componets/PostForm.jsx';
 import MySelect from './Componets/UI/select/MySelect.jsx';
 import MyInput from './Componets/UI/input/MyInput.jsx';
+import PostFilter from './Componets/PostFilter.jsx';
 
 function App() {
     const [posts, setPosts] = useState([
@@ -11,8 +12,7 @@ function App() {
         { id: 2, title: 'aaa', body: 'ывы' },
         { id: 3, title: 'ввв', body: 'к' },
     ]);
-    const [selectedSort, setSelectedSort] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
+    const [filter, setFilter] = useState({ sort: '', query: '' });
 
     const sortedPosts = useMemo(() => {
         console.log('function worked correctly');
@@ -22,7 +22,7 @@ function App() {
         return posts;
     }, [selectedSort, posts]);
     const sortedAndSearchedPosts = useMemo(() => {
-        return sortedPosts.filter((post) => post.title.includes(searchQuery));
+        return sortedPosts.filter((post) => post.title.toLowerCase().includes(searchQuery));
     }, [searchQuery, sortedPosts]);
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -37,23 +37,11 @@ function App() {
         <div className="App">
             <PostForm create={createPost} />
             <hr style={{ margin: '15px 0' }} />
+            <PostFilter />
             <div>
-                <MyInput
-                    placeholder="Search..."
-                    value={[searchQuery]}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <MySelect
-                    value={selectedSort}
-                    onChange={sortPosts}
-                    defaultValue="Sort"
-                    options={[
-                        { value: 'title', name: 'By name' },
-                        { value: 'body', name: 'By description' },
-                    ]}
-                />
+                <PostList posts={sortedPosts} />
             </div>
-            {posts.length ? (
+            {sortedAndSearchedPosts.length ? (
                 <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Lists of items'} />
             ) : (
                 <h1 style={{ textAlign: 'center' }}>No posts found</h1>
