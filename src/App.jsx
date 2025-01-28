@@ -3,6 +3,7 @@ import {useState} from "react";
 import PostList from "./Componets/PostList.jsx";
 import PostForm from "./Componets/PostForm.jsx";
 import MySelect from './Componets/UI/select/MySelect.jsx';
+import MyInput from './Componets/UI/input/MyInput.jsx';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -11,6 +12,8 @@ function App() {
     { id: 3, title: "ввв", body: "к" },
   ]);
   const [selectedSort, setSelectedSort] = useState('')
+    const[searchQuery, setSearchQuery] = useState('');
+const sortedPosts=[...posts].sort((a,b)=>a[selectedSort].localeCompare(b[selectedSort]));
 const createPost = (newPost) => {
     setPosts([...posts,newPost]);
 }
@@ -19,13 +22,16 @@ const removePost = (post) => {
 }
 const sortPosts = (sort) => {
       setSelectedSort(sort);
-      setPosts([...posts].sort((a,b)=>a[sort].localeCompare(b[sort])));
+      setPosts();
 }
   return (
     <div className="App">
       <PostForm create={createPost}/>
         <hr style={{margin:"15px 0"}}/>
         <div>
+<MyInput placeholder="Search..."
+value={[searchQuery]}
+         onChange={e => setSearchQuery(e.target.value)}/>
             <MySelect
                 value={selectedSort}
                 onChange={sortPosts}
