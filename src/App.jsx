@@ -1,24 +1,33 @@
 import './styles/App.css';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostList from './Componets/PostList.jsx';
 import PostForm from './Componets/PostForm.jsx';
 import PostFilter from './Componets/PostFilter.jsx';
 import MyModal from './Componets/UI/MyModal/MyModal.jsx';
 import MyButton from './Componets/UI/button/MyButton.jsx';
+import { usePosts } from './hooks/usePosts.js';
+import PostService from './API/PostService.js';
+import Loader from './Componets/UI/Loader/Loader.jsx';
+import { useFetching } from './hooks/useFetching.js';
 
 function App() {
-    const [posts, setPosts] = useState([
-        { id: 1, title: 'ббб', body: 'вы' },
-        { id: 2, title: 'aaa', body: 'ывы' },
-        { id: 3, title: 'ввв', body: 'к' },
-    ]);
+    const [posts, setPosts] = useState([]);
     const [filter, setFilter] = useState({ sort: '', query: '' });
     const [modal, setModal] = useState(false);
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+    const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
+        const posts = await PostService.getAll();
+        setPosts(posts);
+    });
+    useEffect(() => {
+        fetchPosts();
+    }, []);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
         setModal(false);
     };
+
     const removePost = (post) => {
         setPosts(posts.filter((p) => p.id !== post.id));
     };
@@ -34,7 +43,14 @@ function App() {
 
             <hr style={{ margin: '15px 0' }} />
             <PostFilter filter={filter} setFilter={setFilter} />
-            <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Lists of items'} />
+            {postError && <h1>Error happened{postError}</h1>}
+            {isPostsLoading ? (
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}>
+                    <Loader />
+                </div>
+            ) : (
+                <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Lists of items'} />
+            )}
         </div>
     );
 }
