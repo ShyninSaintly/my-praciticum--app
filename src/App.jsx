@@ -1,29 +1,36 @@
 import './styles/App.css';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostList from './Componets/PostList.jsx';
 import PostForm from './Componets/PostForm.jsx';
 import PostFilter from './Componets/PostFilter.jsx';
 import MyModal from './Componets/UI/MyModal/MyModal.jsx';
 import MyButton from './Componets/UI/button/MyButton.jsx';
+import { usePosts } from './hooks/usePosts.js';
+import axios from 'axios';
 
 function App() {
-    const [posts, setPosts] = useState([
-        { id: 1, title: 'ббб', body: 'вы' },
-        { id: 2, title: 'aaa', body: 'ывы' },
-        { id: 3, title: 'ввв', body: 'к' },
-    ]);
+    const [posts, setPosts] = useState([]);
     const [filter, setFilter] = useState({ sort: '', query: '' });
     const [modal, setModal] = useState(false);
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
+    useEffect(() => {
+        fetchPosts();
+    }, []);
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
         setModal(false);
     };
+    async function fetchPosts() {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+        setPosts(response.data);
+    }
     const removePost = (post) => {
         setPosts(posts.filter((p) => p.id !== post.id));
     };
     return (
         <div className="App">
+            <button onClick={fetchPosts}>get</button>
             <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>
                 Create Post
             </MyButton>
