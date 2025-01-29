@@ -5,8 +5,8 @@ import About from './pages/About.jsx';
 function App() {
     return (
         <BrowserRouter>
-            <Route path="/About"/>
-            <About />
+            <Route path="/About">
+                <About />
             </Route>
         </BrowserRouter>
     );
