@@ -1,14 +1,17 @@
 import './styles/App.css';
-import { BrowserRouter, Route } from 'react-router-dom';
-import About from './pages/About.jsx';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Navbar from './Componets/UI/Navbar/Navbar.jsx';
+import AppRouter from './Componets/AppRouter.jsx';
 
 function App() {
     return (
-        <BrowserRouter>
-            <Route path="/About">
-                <About />
-            </Route>
-        </BrowserRouter>
+        <>
+            <BrowserRouter>
+                <Navbar />
+                <AppRouter />
+            </BrowserRouter>
+        </>
     );
 }
+
 export default App;

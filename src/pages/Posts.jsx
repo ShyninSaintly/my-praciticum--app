@@ -1,16 +1,15 @@
-import './styles/App.css';
 import { useEffect, useState } from 'react';
-import { usePosts } from './hooks/usePosts.js';
-import PostList from './Componets/PostList.jsx';
-import PostForm from './Componets/PostForm.jsx';
-import PostFilter from './Componets/PostFilter.jsx';
-import MyModal from './Componets/UI/MyModal/MyModal.jsx';
-import MyButton from './Componets/UI/button/MyButton.jsx';
-import { getPagesArray, getPagesCount } from './utils/pages.js';
-import PostService from './API/PostService.js';
-import Loader from './Componets/UI/Loader/Loader.jsx';
-import { useFetching } from './hooks/useFetching.js';
-import Pagination from './Componets/UI/pagination/Pagination.jsx';
+import PostService from '../API/PostService.js';
+import { useFetching } from '../hooks/useFetching.js';
+import { usePosts } from '../hooks/usePosts.js';
+import { getPagesCount } from '../utils/pages.js';
+import MyButton from '../Componets/UI/button/MyButton.jsx';
+import MyModal from '../Componets/UI/MyModal/MyModal.jsx';
+import PostFilter from '../Componets/PostFilter.jsx';
+import PostForm from '../Componets/PostForm.jsx';
+import PostList from '../Componets/PostList.jsx';
+import Loader from '../Componets/UI/Loader/Loader.jsx';
+import Pagination from '../Componets/UI/pagination/Pagination.jsx';
 
 function Posts() {
     const [posts, setPosts] = useState([]);
