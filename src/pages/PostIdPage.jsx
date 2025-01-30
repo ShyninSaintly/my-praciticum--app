@@ -10,9 +10,10 @@ const PostIdPage = () => {
         const response = await PostService.getByID(id);
         setPost(response.data);
     });
+
     useEffect(() => {
         fetchPostById(params.id);
-    }, []);
+    }, [params.id]);
     return (
         <div>
             <h1>Вы открыли страницу {params.id}</h1>
@@ -20,7 +21,7 @@ const PostIdPage = () => {
                 <Loader />
             ) : (
                 <div>
-                    {post.id},{post.title}
+                    {post.id}/{post.title}
                 </div>
             )}
         </div>
