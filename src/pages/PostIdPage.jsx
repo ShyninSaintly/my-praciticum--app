@@ -6,27 +6,45 @@ import Loader from '../Componets/UI/Loader/Loader.jsx';
 const PostIdPage = () => {
     const params = useParams();
     const [post, setPost] = useState({});
-    const [fetchPostById, isLoading, error] = useFetching(async (id) => {
-        const response = await PostService.getById(id);
+    const [comment, setComment] = useState([]);
+    const [fetchPostById, isLoading, error] = useFetching(async () => {
+        const response = await PostService.getById(params.id);
         setPost(response.data);
     });
-
+    const [fetchComments, isComLoading, errorCom] = useFetching(async () => {
+        const response = await PostService.getComments(params.id);
+        setComment(response.data);
+    });
     useEffect(() => {
-        fetchPostById(params.id);
-    }, []);
+        if (params.id) {
+            fetchPostById(params.id);
+            fetchComments(params.id);
+        }
+    }, [params.id]);
     return (
-        <div>
-            <h1>Вы открыли страницу {params.id}</h1>
+        <>
+            <h1>Post number {params.id}</h1>
             {isLoading ? (
                 <Loader />
             ) : (
                 <div>
-                    {post.id}
-                    {post.title}
+                    {post.id}.{post.title}
                 </div>
             )}
-        </div>
+            <h1>Comments</h1>
+            {isComLoading ? (
+                <Loader />
+            ) : (
+                <div>
+                    {comment.map((comm) => (
+                        <div style={{ marginTop: '10px' }}>
+                            <h5>{comm.email}</h5>
+                            <div>{comm.body}</div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </>
     );
 };
-
 export default PostIdPage;
