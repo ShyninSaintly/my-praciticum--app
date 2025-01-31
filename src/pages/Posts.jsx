@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import PostService from '../API/PostService.js';
 import { useFetching } from '../hooks/useFetching.js';
 import { usePosts } from '../hooks/usePosts.js';
+import { useRef } from 'react';
 import { getPagesCount } from '../utils/pages.js';
 import MyButton from '../Componets/UI/button/MyButton.jsx';
 import MyModal from '../Componets/UI/MyModal/MyModal.jsx';
@@ -19,17 +20,20 @@ function Posts() {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-
+    const LastElement=useRef()
     const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
         const response = await PostService.getAll(limit, page);
-        setPosts(response.data);
+        setPosts([...posts,...response.data]);
         const totalCount = response.headers['x-total-count'];
         setTotalPages(getPagesCount(totalCount, limit));
     });
 
+useObserver(LastElement,page,totalPage,isPostsLoading,()=>{
+    setPage(page+1);
+});
     useEffect(() => {
-        fetchPosts();
-    }, [page]);
+        fetchPosts(limit,page);
+    }, [page,limit]);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -55,14 +59,26 @@ function Posts() {
             </MyModal>
             <hr style={{ margin: '15px 0' }} />
             <PostFilter filter={filter} setFilter={setFilter} />
+            <MySelect value={limit} onChanghe={value=>setLimit(value)} 
+                defaultValue='колво эл на стр'
+                options={[
+                    { value: 5, name: '5' },
+                    { value: 10, name: '10' },
+                    { value: 20, name: '20' },
+                    { value: 30, name: '30' },
+                    { value: -1, name: 'все' },
+                    
+
+                ]}
+                />
             {postError && <h1>Error happened{postError}</h1>}
-            {isPostsLoading ? (
+            <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Lists of items'} />
+            <div ref={LastElement} style={height:20,background:'red'}/>
+            {isPostsLoading &&
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}>
                     <Loader />
                 </div>
-            ) : (
-                <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Lists of items'} />
-            )}
+            }
             <Pagination page={page} changePage={changePage} totalPages={totalPages} />
         </div>
     );
