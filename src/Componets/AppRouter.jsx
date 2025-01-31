@@ -1,14 +1,23 @@
-import { Route, Routes } from 'react-router-dom';
-import { routes } from '../router/routes.js';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { publicRoutes, privateRoutes } from '../router/index.jsx';
+import { useContext } from 'react';
 
 const AppRouter = () => {
-    return (
+    const { isAuth, setIsAuth } = useContext(AuthContext);
+    console.log(isAuth);
+    return isAuth ? (
         <Routes>
-            {routes.map((route) => (
-                <Route component={route.component} path={route.path} exact={route.exact} />
+            {privateRoutes.map((route) => (
+                <Route path={route.path} element={route.element} exact={route.exact} />
             ))}
+        </Routes>
+    ) : (
+        <Routes>
+            {publicRoutes.map((route) => (
+                <Route path={route.path} element={route.element} exact={route.exact} />
+            ))}
+            <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
     );
 };
-
 export default AppRouter;
