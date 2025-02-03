@@ -2,7 +2,6 @@ import './styles/App.css';
 import { BrowserRouter } from 'react-router-dom';
 import Navbar from './Componets/UI/Navbar/Navbar.jsx';
 import AppRouter from './Componets/AppRouter.jsx';
-import PostIdPage from './pages/PostIdPage.jsx';
 import { AuthContext } from './context/index.jsx';
 import { useEffect, useState } from 'react';
 
@@ -11,7 +10,7 @@ function App() {
     const[isLoading, setLoading] = useState(true)
     useEffect(() =>{
         if(localStorage.getItem('auth')){
-            setIsAuth(true)
+            setIsAuth(true);
         }
         setLoading(false);
     },[])
@@ -20,7 +19,6 @@ function App() {
             <AuthContext.Provider value={{ isAuth, setIsAuth,isLoading}}>
                 <BrowserRouter>
                     <Navbar />
-                    <PostIdPage />
                     <AppRouter />
                 </BrowserRouter>
             </AuthContext.Provider>

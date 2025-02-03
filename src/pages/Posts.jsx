@@ -62,14 +62,13 @@ useObserver(lastElement,page,totalPages,isPostsLoading,()=>{
             </MyModal>
             <hr style={{ margin: '15px 0' }} />
             <PostFilter filter={filter} setFilter={setFilter} />
-            <MySelect value={limit} onChanghe={value=>setLimit(value)} 
+            <MySelect value={limit} onChange={value=>setLimit(value)}
                 defaultValue='колво эл на стр'
                 options={[
                     { value: 5, name: '5'   },
                     { value: 10, name: '10' },
-                    { value: 20, name: '20' },
-                    { value: 30, name: '30' },
-                    { value: -1, name: 'все'},
+                    { value: 25, name: '25' },
+                    { value: -1, name: 'Show all'},
                 ]}
                 />
             {postError && <h1>Error happened{postError}</h1>}
