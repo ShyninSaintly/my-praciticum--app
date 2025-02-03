@@ -23,7 +23,7 @@ function Posts() {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-    const LastElement=useRef()
+    const lastElement=useRef()
     const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
         const response = await PostService.getAll(limit, page);
         setPosts([...posts,...response.data]);
@@ -31,7 +31,7 @@ function Posts() {
         setTotalPages(getPagesCount(totalCount, limit));
     });
 
-useObserver(LastElement,page,totalPages,isPostsLoading,()=>{
+useObserver(lastElement,page,totalPages,isPostsLoading,()=>{
     setPage(page+1);
 });
     useEffect(() => {
@@ -74,13 +74,13 @@ useObserver(LastElement,page,totalPages,isPostsLoading,()=>{
                 />
             {postError && <h1>Error happened{postError}</h1>}
             <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Lists of items'} />
-            <div ref={LastElement} style={{height:20,background:'red'}}/>
+            <div ref={lastElement} style={{height:20,background:'red'}}></div>
             {isPostsLoading &&
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}>
                     <Loader />
                 </div>
             }
-            <Pagination page={page} changePage={changePage} totalPages={totalPages} />
+            <Pagination page={page} changePage={changePage} totalPages={totalPages}/>
         </div>
     );
 }
