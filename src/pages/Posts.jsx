@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import PostService from '../API/PostService.js';
 import { useFetching } from '../hooks/useFetching.js';
 import { usePosts } from '../hooks/usePosts.js';
+import { useObserver } from '../hooks/useObserver.js';
 import { useRef } from 'react';
 import { getPagesCount } from '../utils/pages.js';
 import MyButton from '../Componets/UI/button/MyButton.jsx';
@@ -11,6 +12,8 @@ import PostForm from '../Componets/PostForm.jsx';
 import PostList from '../Componets/PostList.jsx';
 import Loader from '../Componets/UI/Loader/Loader.jsx';
 import Pagination from '../Componets/UI/pagination/Pagination.jsx';
+
+import MySelect from '../Componets/UI/select/MySelect.jsx';
 
 function Posts() {
     const [posts, setPosts] = useState([]);
@@ -28,7 +31,7 @@ function Posts() {
         setTotalPages(getPagesCount(totalCount, limit));
     });
 
-useObserver(LastElement,page,totalPage,isPostsLoading,()=>{
+useObserver(LastElement,page,totalPages,isPostsLoading,()=>{
     setPage(page+1);
 });
     useEffect(() => {
@@ -62,18 +65,16 @@ useObserver(LastElement,page,totalPage,isPostsLoading,()=>{
             <MySelect value={limit} onChanghe={value=>setLimit(value)} 
                 defaultValue='колво эл на стр'
                 options={[
-                    { value: 5, name: '5' },
+                    { value: 5, name: '5'   },
                     { value: 10, name: '10' },
                     { value: 20, name: '20' },
                     { value: 30, name: '30' },
-                    { value: -1, name: 'все' },
-                    
-
+                    { value: -1, name: 'все'},
                 ]}
                 />
             {postError && <h1>Error happened{postError}</h1>}
             <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Lists of items'} />
-            <div ref={LastElement} style={height:20,background:'red'}/>
+            <div ref={LastElement} style={{height:20,background:'red'}}/>
             {isPostsLoading &&
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}>
                     <Loader />

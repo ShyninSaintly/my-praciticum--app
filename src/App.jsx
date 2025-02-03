@@ -4,7 +4,7 @@ import Navbar from './Componets/UI/Navbar/Navbar.jsx';
 import AppRouter from './Componets/AppRouter.jsx';
 import PostIdPage from './pages/PostIdPage.jsx';
 import { AuthContext } from './context/index.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
     const [isAuth, setIsAuth] = useState(false);

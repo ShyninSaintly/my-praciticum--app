@@ -2,14 +2,13 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '../router/index.jsx';
 import { useContext } from 'react';
 import { AuthContext } from '../context/index.jsx';
-import { useNavigate } from 'react-router-dom';
+import Loader from './UI/Loader/Loader.jsx';
 
 const AppRouter = () => {
-    const { isAuth, setIsAuth,isLoadfing } = useContext(AuthContext);
-    if(isLoadfing){
+    const { isAuth, setIsAuth,isLoading } = useContext(AuthContext);
+    if(isLoading){
         return <Loader />;
     }
-const navigate=useNavigate();
     return isAuth ? (
         <Routes>
             {privateRoutes.map((route) => (
@@ -18,9 +17,9 @@ const navigate=useNavigate();
         </Routes>
     ) : (
         <Routes>
-            {publicRoutes.map((route) => (
+            {publicRoutes.map((route) =>
                 <Route path={route.path} element={route.element} exact={route.exact} key={route.path} />
-            ))}
+            )}
     <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
     );
